@@ -1391,13 +1391,42 @@ textarea {
         gap: 0.9rem;
     }
 
-    /* Milestone / memories cards: more compact */
-    .glass-card { padding: 1rem; }
-    .section-header { margin-bottom: 0.75rem; }
-    .section-header h2 { font-size: 1.05rem; }
+    /* Cards — prevent any child overflowing viewport */
+    .glass-card { padding: 1rem; max-width: 100%; overflow: hidden; }
 
-    /* Chart shorter on mobile */
-    .chart-wrapper { height: 220px; }
+    /* Section header — stack title + controls on narrow screens */
+    .section-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+    .section-header h2 { font-size: 1rem; }
+
+    /* Chart section header specifically */
+    .chart-section .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .chart-toggles {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    /* Chart container must never exceed viewport */
+    .chart-wrapper {
+        height: 200px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    /* Deviation bar stacks vertically */
+    .deviation-info {
+        flex-direction: column;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+    }
 
     /* Suggest grid: 1 column on mobile */
     .suggest-grid { grid-template-columns: 1fr; }
@@ -1408,7 +1437,7 @@ textarea {
     /* Form rows become stacked */
     .form-row { flex-direction: column; gap: 0.6rem; }
 
-    /* Modal takes up full screen */
+    /* Modal slides up from bottom */
     .modal-overlay { align-items: flex-end; padding: 0; }
     .modal-container {
         width: 100%;
@@ -1420,14 +1449,16 @@ textarea {
 
     /* Vaccination summary stacks */
     .vacc-summary { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    .vacc-legend  { gap: 0.35rem; }
-
-    /* Chart toggles wrap */
-    .chart-toggles { flex-wrap: wrap; }
+    .vacc-legend  { gap: 0.35rem; flex-wrap: wrap; }
+    .vacc-header  { flex-direction: column; }
 
     /* Reminder list: stacked */
     .reminder-list { gap: 0.5rem; }
     .reminder-item { padding: 0.65rem 0.9rem; }
+
+    /* Prevent any element from causing horizontal scroll */
+    * { max-width: 100%; }
+    canvas { max-width: 100% !important; }
 }
 
 /* ── 480px – Small phones ─────────────────────────── */
