@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rudhir Vaayu Shaurya's growth tracker — by Sahana">
+    <title>Sprout · Rudhir Vaayu Shaurya</title>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7c5cfa">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-container">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────────── -->
+    <nav class="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="Sprout Logo" class="logo-img">
+            <span>Sprout</span>
+        </div>
+
+        <div class="baby-hero">
+            <div class="baby-avatar-ring">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=RudhirVaayu&backgroundColor=7c5cfa,ff7597&radius=50" alt="Rudhir">
+            </div>
+            <h3 class="baby-name">Rudhir Vaayu Shaurya</h3>
+            <p class="baby-mom"><i class="fa-solid fa-heart"></i> Sahana's little warrior</p>
+        </div>
+
+        <ul class="nav-links">
+            <li class="active" data-section="dashboard"><a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li data-section="growth"><a href="#"><i class="fa-solid fa-weight-scale"></i> Growth</a></li>
+            <li data-section="milestones"><a href="#"><i class="fa-solid fa-flag-checkered"></i> Milestones</a></li>
+            <li data-section="health"><a href="#"><i class="fa-solid fa-syringe"></i> Health Intakes</a></li>
+            <li data-section="memories"><a href="#"><i class="fa-solid fa-image"></i> Memories</a></li>
+            <li data-section="suggestions"><a href="#"><i class="fa-solid fa-lightbulb"></i> Suggestions</a></li>
+            <li data-section="vaccines"><a href="#"><i class="fa-solid fa-shield-virus"></i> Vaccines</a></li>
+        </ul>
+
+        <div class="user-profile">
+            <div class="avatar">
+                <img src="https://i.pravatar.cc/150?u=sahana_mom" alt="Sahana">
+            </div>
+            <div class="info">
+                <p class="name">Sahana</p>
+                <p class="role">Super Mom 💜</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── MAIN DASHBOARD ────────────────────────────────────── -->
+    <main class="dashboard">
+
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-text">
+                <h1>Hey <span class="highlight">Sahana!</span> 🌙</h1>
+                <p>Tracking Rudhir Vaayu Shaurya's beautiful journey.</p>
+            </div>
+            <div class="header-actions">
+                <div class="age-selector-wrap">
+                    <label for="babyAgeSelect"><i class="fa-solid fa-baby"></i> Age</label>
+                    <select id="babyAgeSelect">
+                        <option value="1" selected>1 Month</option><option value="2">2 Months</option>
+                        <option value="3">3 Months</option><option value="4">4 Months</option>
+                        <option value="5">5 Months</option><option value="6">6 Months</option>
+                        <option value="7">7 Months</option><option value="8">8 Months</option>
+                        <option value="9">9 Months</option><option value="10">10 Months</option>
+                        <option value="11">11 Months</option><option value="12">12 Months</option>
+                    </select>
+                </div>
+                <button class="btn btn-icon" id="notifBtn"><i class="fa-solid fa-bell"></i></button>
+                <button id="openModalBtn" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Entry</button>
+            </div>
+        </header>
+
+        <!-- Stat Cards -->
+        <section class="stats-container">
+            <div class="stat-card glass-card">
+                <div class="stat-icon pink-bg"><i class="fa-solid fa-baby"></i></div>
+                <div class="stat-info">
+                    <h3>Age</h3>
+                    <p class="stat-value" id="statAgeValue">1 Month</p>
+                    <span class="stat-subtext">Born for greatness 🌟</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon blue-bg"><i class="fa-solid fa-weight-scale"></i></div>
+                <div class="stat-info">
+                    <h3>Weight</h3>
+                    <p class="stat-value" id="weightValue">3.4 kg</p>
+                    <span class="stat-subtext" id="weightTrend"><i class="fa-solid fa-minus"></i> Start tracking</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon purple-bg"><i class="fa-solid fa-ruler-vertical"></i></div>
+                <div class="stat-info">
+                    <h3>Height</h3>
+                    <p class="stat-value" id="heightValue">1.64 ft</p>
+                    <span class="stat-subtext" id="heightTrend"><i class="fa-solid fa-minus"></i> Start tracking</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon green-bg"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-info">
+                    <h3>Total Progress</h3>
+                    <p class="stat-value" id="overallProgressVal">0%</p>
+                    <div class="mini-progress"><div class="mini-bar" id="overallProgressBar"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid">
+
+            <!-- Growth Chart with WHO Benchmark -->
+            <section class="chart-section glass-card full-width">
+                <div class="section-header">
+                    <div>
+                        <h2>Growth Percentile vs WHO Benchmark</h2>
+                        <p class="section-sub">Shaded area = WHO 25th–75th percentile range</p>
+                    </div>
+                    <div class="chart-toggles">
+                        <button class="btn-toggle active" data-metric="weight">Weight</button>
+                        <button class="btn-toggle" data-metric="height">Height</button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="growthChart"></canvas>
+                </div>
+                <div class="deviation-info" id="deviationInfo"></div>
+            </section>
+
+            <!-- Milestones Timeline -->
+            <section class="milestone-section glass-card">
+                <div class="section-header">
+                    <h2>Milestones</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="timeline">
+                    <!-- Timeline items will be injected here via JS -->
+                </div>
+            </section>
+
+            <!-- Up Next -->
+            <section class="reminders-section glass-card">
+                <div class="section-header"><h2>Up Next</h2></div>
+                <ul class="reminder-list">
+                    <!-- Reminders will be populated here -->
+                </ul>
+            </section>
+
+            <!-- Suggestions with checkboxes -->
+            <section class="suggestions-section glass-card full-width" id="suggestionsPanel">
+                <div class="section-header">
+                    <div>
+                        <h2><i class="fa-solid fa-lightbulb glow-yellow"></i> Suggestions for Month <span id="suggestionMonth">8</span></h2>
+                        <p class="section-sub">WHO / AAP Guidelines — tick off what Rudhir has done!</p>
+                    </div>
+                    <span class="suggest-badge">WHO / AAP</span>
+                </div>
+
+                <!-- Overall progress bar -->
+                <div class="suggest-progress-wrap">
+                    <div class="suggest-progress-labels">
+                        <span>Overall Progress</span>
+                        <span id="suggestProgressPct">0%</span>
+                    </div>
+                    <div class="suggest-master-bar">
+                        <div class="suggest-master-fill" id="suggestMasterFill"></div>
+                    </div>
+                </div>
+
+                <div class="suggest-grid">
+                    <div class="suggest-card growth-card">
+                        <div class="suggest-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h4>Growth Benchmark</h4>
+                        <div id="growthBenchmark"></div>
+                    </div>
+                    <div class="suggest-card food-card">
+                        <div class="suggest-card-header">
+                            <div class="suggest-icon"><i class="fa-solid fa-bowl-food"></i></div>
+                            <div class="suggest-pct-badge" id="foodPct">0%</div>
+                        </div>
+                        <h4>Food &amp; Nutrition</h4>
+                        <div class="suggest-sub-bar"><div class="suggest-sub-fill food-fill" id="foodFill"></div></div>
+                        <ul id="foodSuggestions" class="checkbox-list"></ul>
+                    </div>
+                    <div class="suggest-card milestone-card">
+                        <div class="suggest-card-header">
+                            <div class="suggest-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                            <div class="suggest-pct-badge" id="milestonePct">0%</div>
+                        </div>
+                        <h4>Milestone Checklist</h4>
+                        <div class="suggest-sub-bar"><div class="suggest-sub-fill milestone-fill" id="milestoneFill"></div></div>
+                        <ul id="milestoneSuggestions" class="checkbox-list"></ul>
+                    </div>
+                    <div class="suggest-card memory-card">
+                        <div class="suggest-card-header">
+                            <div class="suggest-icon"><i class="fa-solid fa-camera-retro"></i></div>
+                            <div class="suggest-pct-badge" id="memoryPct">0%</div>
+                        </div>
+                        <h4>Memory Ideas 📸</h4>
+                        <div class="suggest-sub-bar"><div class="suggest-sub-fill memory-fill" id="memoryFill"></div></div>
+                        <ul id="memorySuggestions" class="checkbox-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memories Gallery -->
+            <section class="memories-section glass-card full-width">
+                <div class="section-header">
+                    <h2>Month-wise Memories</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="memory-grid" id="memoryGrid">
+                    <div class="memory-item empty-state">
+                        <i class="fa-solid fa-camera"></i>
+                        <p>No memories yet — capture Rudhir's first moments!</p>
+                    </div>
+                </div>
+            </section>
+
+                <!-- ── VACCINATION TRACKER ─────────────────────────── -->
+                <section class="vacc-section glass-card full-width" id="vaccinePanel">
+                    <div class="section-header vacc-header">
+                        <div>
+                            <h2><i class="fa-solid fa-shield-virus glow-teal"></i> Vaccination Tracker</h2>
+                            <p class="section-sub">IAP (Indian Academy of Pediatrics) Schedule &middot; Tick off doses given to Rudhir</p>
+                        </div>
+                        <div class="vacc-summary">
+                            <div class="vacc-summary-ring">
+                                <svg viewBox="0 0 36 36" class="ring-svg">
+                                    <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="ring-fill" id="vaccRingFill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <div class="ring-label">
+                                    <span id="vaccDoneCount">0</span>
+                                    <small>done</small>
+                                </div>
+                            </div>
+                            <div class="vacc-summary-text">
+                                <p class="vacc-pct" id="vaccProgressPct">0%</p>
+                                <p class="vacc-total" id="vaccTotalLabel">of 0 doses</p>
+                                <div class="vacc-legend">
+                                    <span class="vleg given"><i class="fa-solid fa-circle"></i> Given</span>
+                                    <span class="vleg due"><i class="fa-solid fa-circle"></i> Due Soon</span>
+                                    <span class="vleg upcoming"><i class="fa-solid fa-circle"></i> Upcoming</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="vaccTimeline" class="vacc-timeline"></div>
+                </section>
+        </div>
+    </main>
+</div>
+
+<!-- ── ADD ENTRY MODAL ────────────────────────────────────── -->
+<div class="modal-overlay" id="addEntryModal">
+    <div class="modal-container glass-card">
+        <div class="modal-header">
+            <h2>Add New Entry</h2>
+            <button class="btn-close" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-tabs">
+            <button class="tab-btn active" data-tab="growth">Growth</button>
+            <button class="tab-btn" data-tab="milestone">Milestone</button>
+            <button class="tab-btn" data-tab="health">Health</button>
+            <button class="tab-btn" data-tab="memory">Memory</button>
+        </div>
+        <div class="modal-body">
+            <!-- Growth -->
+            <form id="growthForm" class="entry-form active">
+                <div class="form-group">
+                    <label for="growthDate">Date</label>
+                    <input type="date" id="growthDate" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" step="0.01" id="weight" placeholder="e.g. 8.40" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (ft)</label>
+                        <input type="number" step="0.01" id="height" placeholder="e.g. 2.30" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Save Growth Data</button>
+            </form>
+            <!-- Milestone -->
+            <form id="milestoneForm" class="entry-form">
+                <div class="form-group">
+                    <label for="milestoneTitle">Title</label>
+                    <input type="text" id="milestoneTitle" placeholder="e.g. First Steps" required>
+                </div>
+                <div class="form-group">
+                    <label for="milestoneDate">Date</label>
+                    <input type="date" id="milestoneDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="milestoneDesc">Description</label>
+                    <textarea id="milestoneDesc" rows="3" placeholder="Tell us about this milestone..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Optional Photo</label>
+                    <div class="file-upload-zone" id="fileUploadZoneMilestone">
+                        <input type="file" id="milestonePhoto" accept="image/*">
+                        <div class="upload-placeholder" id="placeholderMilestone">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Click to upload image (optional)</span>
+                        </div>
+                        <img id="imagePreviewMilestone" class="image-preview" src="" alt="Preview">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Save Milestone</button>
+            </form>
+            <!-- Health -->
+            <form id="healthForm" class="entry-form">
+                <div class="form-group">
+                    <label for="healthType">Type</label>
+                    <select id="healthType" required>
+                        <option value="vaccine">Vaccine</option>
+                        <option value="medication">Medication</option>
+                        <option value="vitamin">Vitamin / Supplement</option>
+                        <option value="checkup">Doctor Checkup</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="healthDate">Date</label>
+                    <input type="date" id="healthDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="healthDesc">Details</label>
+                    <input type="text" id="healthDesc" placeholder="e.g. Flu Shot" required>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Save Health Record</button>
+            </form>
+            <!-- Memory -->
+            <form id="memoryForm" class="entry-form">
+                <div class="form-group">
+                    <label for="memoryDate">Month / Date</label>
+                    <input type="date" id="memoryDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Optional Photo</label>
+                    <div class="file-upload-zone" id="fileUploadZoneMemory">
+                        <input type="file" id="memoryPhoto" accept="image/*">
+                        <div class="upload-placeholder" id="placeholderMemory">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Click to upload image (optional)</span>
+                        </div>
+                        <img id="imagePreviewMemory" class="image-preview" src="" alt="Preview">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="memoryCaption">Caption</label>
+                    <input type="text" id="memoryCaption" placeholder="e.g. 8 Month Milestone!" required>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Save Memory</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('ServiceWorker registered!', reg.scope))
+                .catch(err => console.log('ServiceWorker registration failed: ', err));
+        });
+    }
+</script>
+</body>
+</html>
