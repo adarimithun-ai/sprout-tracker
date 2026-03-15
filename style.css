@@ -56,8 +56,8 @@ body {
     background: var(--bg);
     color: var(--text-main);
     line-height: 1.6;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
     background-image:
         radial-gradient(ellipse at 10% 20%, rgba(124, 92, 250, 0.06) 0%, transparent 55%),
         radial-gradient(ellipse at 90% 80%, rgba(255, 117, 151, 0.05) 0%, transparent 55%),
@@ -99,6 +99,7 @@ ul {
     display: flex;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 
 /* ── Sidebar ───────────────────────────────────────────────── */
@@ -251,9 +252,11 @@ ul {
 /* ── Dashboard ─────────────────────────────────────────────── */
 .dashboard {
     flex: 1;
+    min-width: 0;
     padding: 1.75rem 2.5rem;
     overflow-y: auto;
     overflow-x: hidden;
+    height: 100vh;
 }
 
 /* Header */
@@ -262,6 +265,7 @@ ul {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    gap: 1rem;
 }
 
 .header-text h1 {
@@ -1305,10 +1309,14 @@ textarea {
 
 /* ── 768px – Mobile: off-canvas sidebar ──────────── */
 @media (max-width: 768px) {
-    /* Body should scroll on mobile */
-    body { height: auto; overflow: auto; }
+    /* Body reset for mobile — let dashboard handle scrolling */
+    body { overflow: hidden; }
 
-    .app-container { flex-direction: column; height: auto; min-height: 100vh; }
+    .app-container {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
 
     /* Off-canvas sidebar */
     .sidebar {
@@ -1327,17 +1335,28 @@ textarea {
     .hamburger       { display: flex; }
     .sidebar-close   { display: block; }
 
-    /* Squish header so the hamburger, title, and actions all fit */
+    /* Sticky header with padding for content below */
     .dashboard-header {
         flex-wrap: wrap;
         gap: 0.75rem;
-        padding: 1rem 1rem;
+        padding: 0.85rem 1rem;
+        margin-bottom: 0;
         position: sticky;
         top: 0;
         z-index: 50;
         background: var(--bg);
         border-bottom: 1px solid var(--card-border);
     }
+
+    /* Scrollable content area below header */
+    .dashboard > *:not(.dashboard-header) {
+        padding: 0 0.9rem;
+    }
+    .stats-container,
+    .bento-grid {
+        padding: 0 0.9rem;
+    }
+    .stats-container { margin-top: 0.9rem; }
 
     .header-text h1   { font-size: 1.2rem; }
     .header-text p    { display: none; }
@@ -1356,8 +1375,15 @@ textarea {
     .stat-card { padding: 0.9rem 1rem; }
     .stat-value { font-size: 1.1rem; }
 
-    /* Dashboard main */
-    .dashboard { padding: 0.9rem; gap: 0.9rem; }
+    /* Dashboard fills full width below hidden sidebar */
+    .dashboard {
+        width: 100%;
+        height: calc(100vh - 0px);
+        padding: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+    }
 
     /* Bento grid: single column */
     .bento-grid {
