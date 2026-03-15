@@ -20,11 +20,15 @@
 <body>
 <div class="app-container">
 
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- ── SIDEBAR ──────────────────────────────────────────── -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="logo">
             <img src="logo.png" alt="Sprout Logo" class="logo-img">
             <span>Sprout</span>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
         <div class="baby-hero">
@@ -61,6 +65,7 @@
 
         <!-- Header -->
         <header class="dashboard-header">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
             <div class="header-text">
                 <h1>Hey <span class="highlight">Sahana!</span> 🌙</h1>
                 <p>Tracking Rudhir Vaayu Shaurya's beautiful journey.</p>
