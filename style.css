@@ -388,7 +388,7 @@ ul {
 /* ── Stats ─────────────────────────────────────────────────── */
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
     margin-bottom: 1.5rem;
 }
@@ -429,6 +429,16 @@ ul {
 .green-bg {
     background: var(--accent-green-light);
     color: var(--accent-green);
+}
+
+.teal-bg {
+    background: rgba(51, 181, 229, 0.15);
+    color: var(--accent-blue);
+}
+
+.orange-bg {
+    background: rgba(255, 171, 0, 0.15);
+    color: var(--warning);
 }
 
 .stat-info h3 {
@@ -533,6 +543,55 @@ ul {
     background: var(--primary);
     color: white;
     box-shadow: 0 2px 10px var(--primary-glow);
+}
+
+/* Height unit toggle */
+.btn-unit {
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: var(--transition-fast);
+}
+
+.btn-unit.active {
+    background: var(--accent-pink);
+    color: white;
+    border-color: var(--accent-pink);
+    box-shadow: 0 2px 10px rgba(255,117,151,0.35);
+}
+
+/* Growth history item date and notes */
+.gh-date {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.gh-notes {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.2rem;
+    grid-column: 1 / -1;
+}
+
+/* Vaccine due soon chip */
+.chip-due-soon {
+    background: rgba(255, 171, 0, 0.2);
+    color: #ffab00;
+    border: 1px solid rgba(255, 171, 0, 0.3);
+}
+
+.status-due-soon {
+    border-left: 3px solid #ffab00;
 }
 
 /* Chart */
@@ -1293,9 +1352,80 @@ textarea {
 }
 .sidebar-overlay.active { display: block; }
 
+/* DOB / toolbar strip */
+.data-toolbar {
+    margin-bottom: 1.25rem;
+}
+
+/* btn-unit — same visual as btn-toggle */
+.btn-unit {
+    border: none;
+    background: transparent;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: var(--transition-fast);
+}
+
+.btn-unit.active {
+    background: var(--accent-pink);
+    color: white;
+    box-shadow: 0 2px 10px rgba(255, 117, 151, 0.35);
+}
+
+/* Growth history item */
+.growth-history-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    background: var(--surface2);
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    margin-bottom: 0.5rem;
+}
+
+.growth-history-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    flex: 1;
+}
+
+.growth-history-notes {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-style: italic;
+    width: 100%;
+    margin-top: 0.2rem;
+}
+
+/* Action buttons (delete/edit) */
+.btn-action {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.btn-action:hover { color: var(--accent-pink); background: var(--accent-pink-light); }
+.btn-action.delete:hover { color: var(--accent-pink); }
+
 /* ── 1200px – Two-column stats, single-column bento ─ */
 @media (max-width: 1200px) {
-    .stats-container { grid-template-columns: repeat(2, 1fr); }
+    .stats-container { grid-template-columns: repeat(3, 1fr); }
     .suggest-grid    { grid-template-columns: repeat(2, 1fr); }
     .bento-grid      { grid-template-columns: 1fr; }
 }

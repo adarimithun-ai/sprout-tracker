@@ -114,6 +114,14 @@
                 </div>
             </div>
             <div class="stat-card glass-card">
+                <div class="stat-icon" style="background:rgba(51,181,229,0.15);"><i class="fa-solid fa-head-side" style="color:#33b5e5;"></i></div>
+                <div class="stat-info">
+                    <h3>Head Circ.</h3>
+                    <p class="stat-value" id="hcValue">— cm</p>
+                    <span class="stat-subtext" id="hcTrend"><i class="fa-solid fa-minus"></i> Start tracking</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
                 <div class="stat-icon green-bg"><i class="fa-solid fa-circle-check"></i></div>
                 <div class="stat-info">
                     <h3>Total Progress</h3>
@@ -122,6 +130,24 @@
                 </div>
             </div>
         </section>
+
+        <!-- DOB + Export/Import toolbar -->
+        <div class="data-toolbar glass-card" style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;padding:.875rem 1.25rem;margin-bottom:1rem;">
+            <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#7b7b9e;white-space:nowrap;">
+                <i class="fa-solid fa-cake-candles" style="color:#ff7597;"></i> Date of Birth:
+                <input type="date" id="dobInput" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f0f0ff;padding:.35rem .65rem;font-family:'Outfit',sans-serif;font-size:.85rem;">
+            </label>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-left:auto;">
+                <span style="font-size:.8rem;color:#7b7b9e;">Height unit:</span>
+                <button class="btn-unit active" data-unit="ft" style="padding:.3rem .7rem;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#f0f0ff;font-family:'Outfit',sans-serif;font-size:.8rem;cursor:pointer;">ft</button>
+                <button class="btn-unit" data-unit="cm" style="padding:.3rem .7rem;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#f0f0ff;font-family:'Outfit',sans-serif;font-size:.8rem;cursor:pointer;">cm</button>
+            </div>
+            <button id="exportBtn" class="btn btn-icon" title="Export data as JSON" style="margin-left:.5rem;"><i class="fa-solid fa-file-export"></i> Export</button>
+            <label class="btn btn-icon" title="Import data from JSON" style="cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;">
+                <i class="fa-solid fa-file-import"></i> Import
+                <input type="file" id="importFile" accept=".json" style="display:none;">
+            </label>
+        </div>
 
         <!-- Bento Grid -->
         <div class="bento-grid">
@@ -136,6 +162,7 @@
                     <div class="chart-toggles">
                         <button class="btn-toggle active" data-metric="weight">Weight</button>
                         <button class="btn-toggle" data-metric="height">Height</button>
+                        <button class="btn-toggle" data-metric="hc">Head Circ.</button>
                     </div>
                 </div>
                 <div class="chart-wrapper">
@@ -296,9 +323,17 @@
                         <input type="number" step="0.01" id="weight" placeholder="e.g. 8.40" required>
                     </div>
                     <div class="form-group">
-                        <label for="height">Height (ft)</label>
+                        <label for="height" id="heightInputLabel">Height (ft)</label>
                         <input type="number" step="0.01" id="height" placeholder="e.g. 2.30" required>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="headCirc">Head Circumference (cm) <span style="color:#7b7b9e;font-size:.8em;">optional</span></label>
+                    <input type="number" step="0.1" id="headCirc" placeholder="e.g. 44.5">
+                </div>
+                <div class="form-group">
+                    <label for="growthNotes">Notes <span style="color:#7b7b9e;font-size:.8em;">optional</span></label>
+                    <textarea id="growthNotes" rows="2" placeholder="Any observations for this entry..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary full-width">Save Growth Data</button>
             </form>
