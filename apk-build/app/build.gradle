@@ -153,9 +153,9 @@ android {
     signingConfigs {
         release {
             def ksFile = System.getenv("KEYSTORE_FILE")
-            def ksPwd  = System.getenv("KEYSTORE_PASSWORD") ?: "android"
+            def ksPwd  = System.getenv("KEYSTORE_PASSWORD") ?: "sprout2024"
             def kAlias = System.getenv("KEY_ALIAS")         ?: "android"
-            def kPwd   = System.getenv("KEY_PASSWORD")      ?: "android"
+            def kPwd   = System.getenv("KEY_PASSWORD")      ?: "sprout2024"
             if (ksFile) {
                 storeFile     file(ksFile)
                 storePassword ksPwd
