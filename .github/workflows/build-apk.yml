@@ -3,39 +3,17 @@ name: Build & Release APK
 on:
   push:
     branches: [main]
-  workflow_dispatch:   # allow manual trigger from Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  # ── 1. Deploy web files to GitHub Pages ─────────────────────
-  deploy-pages:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'          # serve from repo root (index.html, script.js, style.css, etc.)
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  # ── 2. Build signed APK ──────────────────────────────────────
+  # ── 1. Build signed APK ──────────────────────────────────────
   build-apk:
     runs-on: ubuntu-latest
-    needs: deploy-pages       # wait for pages to deploy first
-
     steps:
       - uses: actions/checkout@v4
 
@@ -45,15 +23,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Decode keystore
+      - name: Decode keystore from secret (if set)
+        shell: bash
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > apk-build/android.keystore
-        # If secret is not set, the existing keystore in the repo is used (see next step)
-
-      - name: Use existing keystore if secret not set
-        if: ${{ secrets.KEYSTORE_BASE64 == '' }}
-        run: |
-          echo "No KEYSTORE_BASE64 secret — using committed keystore (password: android)"
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > apk-build/android.keystore
+            echo "Using keystore from secret."
+          else
+            echo "KEYSTORE_BASE64 secret not set — using committed keystore (password: android)."
+          fi
 
       - name: Make gradlew executable
         run: chmod +x apk-build/gradlew
@@ -62,41 +40,43 @@ jobs:
         working-directory: apk-build
         env:
           KEYSTORE_FILE: ${{ github.workspace }}/apk-build/android.keystore
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'android' }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'android' }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'android' }}
-        run: ./gradlew :app:assembleRelease --no-daemon
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
 
-      - name: Locate APK
+      - name: Locate built APK
         id: find_apk
         run: |
           APK=$(find apk-build/app/build/outputs/apk/release -name "*.apk" | head -1)
           echo "apk_path=$APK" >> $GITHUB_OUTPUT
-          echo "Found APK: $APK"
+          cp "$APK" sprout-v3.apk
+          echo "APK ready: $APK"
 
-      - name: Upload APK artifact
+      - name: Upload APK as workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sprout-v3-signed
-          path: ${{ steps.find_apk.outputs.apk_path }}
-          retention-days: 30
+          name: sprout-v3-apk
+          path: sprout-v3.apk
+          retention-days: 60
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v3-${{ github.run_number }}
+          tag_name: v3.${{ github.run_number }}
           name: "Sprout v3 — 10 new features"
           body: |
             ## What's new in v3
-            - Head circumference tracking (WHO benchmarks)
-            - Date of birth — auto-calculates baby's age
-            - Export / Import data as JSON backup
-            - Growth entry date & notes
-            - Vaccine due date alerts based on birthday
-            - Milestone confetti animation
+            - Head circumference tracking with WHO benchmarks
+            - Date of birth — auto-calculates current age and vaccine due dates
+            - Export / Import all data as JSON backup
+            - Growth entry date and notes per record
+            - Vaccine due date alerts with real calendar dates
+            - Milestone confetti celebration animation
             - Height unit toggle (cm / ft)
-          files: ${{ steps.find_apk.outputs.apk_path }}
+            - 5th stat card for head circumference
+
+            **How to install:** Download `sprout-v3.apk` below, transfer to your Android phone, enable "Install from unknown sources" in settings, and tap the file.
+          files: sprout-v3.apk
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
